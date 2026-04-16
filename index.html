@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Non-Disclosure Agreement – GAMJOBS.io</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-50: #E6F1FB;
+      --blue-100: #B5D4F4;
+      --blue-400: #378ADD;
+      --blue-600: #185FA5;
+      --blue-800: #0C447C;
+      --teal-50: #E1F5EE;
+      --teal-400: #1D9E75;
+      --teal-600: #0F6E56;
+      --teal-800: #085041;
+      --red-50: #FCEBEB;
+      --red-400: #E24B4A;
+      --red-600: #A32D2D;
+      --amber-50: #FAEEDA;
+      --amber-400: #BA7517;
+      --gray-50: #F1EFE8;
+      --gray-100: #D3D1C7;
+      --gray-200: #B4B2A9;
+      --gray-600: #5F5E5A;
+      --gray-800: #444441;
+      --gray-900: #2C2C2A;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f4f7fc;
+      color: var(--gray-900);
+      line-height: 1.75;
+      font-size: 15px;
+      min-height: 100vh;
+    }
+
+    /* ── Header / Hero ── */
+    .site-header {
+      background: linear-gradient(135deg, var(--blue-800) 0%, var(--teal-600) 100%);
+      color: #fff;
+      padding: 2.5rem 1.5rem 2rem;
+      text-align: center;
+    }
+
+    .site-header .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #fff;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 1.25rem;
+    }
+
+    .logo span { color: var(--teal-400); }
+
+    .site-header h1 {
+      font-size: clamp(1.5rem, 4vw, 2.1rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .site-header p.subtitle {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* ── Warning Banner ── */
+    .legal-warning {
+      background: var(--amber-50);
+      border-left: 4px solid var(--amber-400);
+      border-radius: 0 8px 8px 0;
+      padding: 0.85rem 1.1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      font-size: 0.875rem;
+      color: #5c3c08;
+      max-width: 820px;
+      margin: 1.75rem auto 0;
+    }
+
+    .legal-warning .icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── Main Layout ── */
+    main {
+      max-width: 820px;
+      margin: 2rem auto 3rem;
+      padding: 0 1.25rem;
+    }
+
+    /* ── Document Card ── */
+    .nda-card {
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid var(--gray-100);
+      box-shadow: 0 4px 24px rgba(24, 95, 165, 0.07), 0 1px 4px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+
+    /* ── Doc Metadata Bar ── */
+    .doc-meta {
+      background: var(--blue-50);
+      border-bottom: 1px solid var(--blue-100);
+      padding: 0.85rem 1.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      font-size: 0.8rem;
+      color: var(--blue-600);
+    }
+
+    .doc-meta span { display: flex; align-items: center; gap: 0.35rem; }
+    .doc-meta strong { font-weight: 600; }
+
+    /* ── NDA Body ── */
+    .nda-body { padding: 2rem 2.25rem; }
+
+    .nda-body section { margin-bottom: 1.85rem; }
+
+    .section-number {
+      display: inline-block;
+      background: var(--blue-50);
+      color: var(--blue-800);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-bottom: 0.45rem;
+    }
+
+    .nda-body h2 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--blue-800);
+      margin-bottom: 0.6rem;
+    }
+
+    .nda-body p { margin-bottom: 0.6rem; color: var(--gray-800); }
+    .nda-body p:last-child { margin-bottom: 0; }
+
+    .nda-body ul {
+      padding-left: 1.35rem;
+      color: var(--gray-800);
+    }
+
+    .nda-body ul li { margin-bottom: 0.4rem; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--gray-100);
+      margin: 1.75rem 0;
+    }
+
+    /* ── Breach / Consequences callout ── */
+    .callout-danger {
+      background: var(--red-50);
+      border-left: 3px solid var(--red-400);
+      border-radius: 0 8px 8px 0;
+      padding: 0.85rem 1.1rem;
+      font-size: 0.9rem;
+      color: var(--red-600);
+    }
+
+    .callout-danger strong { color: var(--red-600); }
+
+    /* ── Agreement Zone ── */
+    .agreement-zone {
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-100);
+      padding: 1.75rem 2.25rem;
+    }
+
+    .agreement-zone h3 {
+      font-size: 0.875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gray-600);
+      margin-bottom: 1.25rem;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .field-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .field-group input[type="text"] {
+      border: 1.5px solid var(--gray-100);
+      border-radius: 8px;
+      padding: 0.6rem 0.85rem;
+      font-size: 0.925rem;
+      background: #fff;
+      color: var(--gray-900);
+      transition: border-color 0.2s;
+      outline: none;
+      width: 100%;
+    }
+
+    .field-group input[type="text"]:focus {
+      border-color: var(--blue-400);
+      box-shadow: 0 0 0 3px rgba(55, 138, 221, 0.12);
+    }
+
+    /* ── Checkbox Row ── */
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      cursor: pointer;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      accent-color: var(--blue-600);
+      cursor: pointer;
+    }
+
+    .checkbox-row .check-label {
+      font-size: 0.9rem;
+      color: var(--gray-800);
+      line-height: 1.55;
+    }
+
+    .checkbox-row .check-label strong {
+      color: var(--gray-900);
+    }
+
+    /* ── Validation message ── */
+    .validation-msg {
+      font-size: 0.825rem;
+      color: var(--red-600);
+      margin-bottom: 1rem;
+      display: none;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .validation-msg.visible { display: flex; }
+
+    /* ── Continue Button ── */
+    .btn-continue {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, var(--blue-600), var(--teal-600));
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      padding: 0.75rem 2rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: not-allowed;
+      opacity: 0.45;
+      transition: opacity 0.25s, transform 0.15s, box-shadow 0.25s;
+      letter-spacing: 0.01em;
+    }
+
+    .btn-continue.active {
+      cursor: pointer;
+      opacity: 1;
+      box-shadow: 0 4px 16px rgba(24, 95, 165, 0.28);
+    }
+
+    .btn-continue.active:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(24, 95, 165, 0.35);
+    }
+
+    .btn-continue.active:active { transform: scale(0.98); }
+
+    .btn-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .secure-note {
+      font-size: 0.78rem;
+      color: var(--gray-600);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* ── Success State ── */
+    .success-banner {
+      display: none;
+      background: #e9f8f1;
+      border: 1px solid #86d9b8;
+      border-radius: 10px;
+      padding: 1.1rem 1.35rem;
+      color: var(--teal-800);
+      font-size: 0.9rem;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .success-banner.visible { display: flex; }
+    .success-banner .s-icon { font-size: 1.4rem; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 1.75rem 1rem 2.5rem;
+      font-size: 0.8rem;
+      color: var(--gray-200);
+    }
+
+    footer a { color: var(--gray-200); text-decoration: underline; }
+
+    /* ── Mobile ── */
+    @media (max-width: 600px) {
+      .nda-body { padding: 1.35rem 1.25rem; }
+      .agreement-zone { padding: 1.35rem 1.25rem; }
+      .field-row { grid-template-columns: 1fr; }
+      .doc-meta { padding: 0.75rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════ HEADER ════════════════════ -->
+  <header class="site-header">
+    <a href="#" class="logo">GAM<span>JOBS</span>.io</a>
+    <h1>Non-Disclosure Agreement</h1>
+    <p class="subtitle">Please read this agreement carefully before accessing platform features, submitting content, or sharing ideas with GAMJOBS.io.</p>
+    <div class="legal-warning">
+      <span class="icon">⚠️</span>
+      <span><strong>Legal Notice:</strong> This is a legally binding document. Violation of its terms may result in civil and/or criminal liability under the laws of The Gambia and applicable international law.</span>
+    </div>
+  </header>
+
+  <!-- ════════════════════ MAIN ════════════════════ -->
+  <main>
+    <div class="nda-card">
+
+      <!-- Doc Meta -->
+      <div class="doc-meta">
+        <span>📄 <strong>Document:</strong> NDA-GAMJOBS-2025</span>
+        <span>📍 <strong>Jurisdiction:</strong> The Gambia</span>
+        <span>📅 <strong>Effective:</strong> Upon acceptance</span>
+        <span>🔒 <strong>Confidential</strong></span>
+      </div>
+
+      <!-- NDA Content -->
+      <div class="nda-body">
+
+        <!-- Preamble -->
+        <section>
+          <span class="section-number">Preamble</span>
+          <h2>Introduction</h2>
+          <p>This Non-Disclosure Agreement ("Agreement") is entered into between <strong>GAMJOBS.io</strong> ("Disclosing Party"), a digital employment and talent platform operating under the laws of The Gambia, and the individual or entity accessing, registering on, or otherwise engaging with GAMJOBS.io ("Receiving Party").</p>
+          <p>By accessing the platform or proceeding beyond this page, the Receiving Party acknowledges having read, understood, and agreed to be legally bound by the terms of this Agreement. This Agreement is intended to protect the proprietary interests, business strategies, technological innovations, and intellectual assets of GAMJOBS.io.</p>
+        </section>
+
+        <hr class="divider" />
+
+        <!-- Section 1 -->
+        <section>
+          <span class="section-number">Section 1</span>
+          <h2>Definition of Confidential Information</h2>
+          <p>For purposes of this Agreement, <strong>"Confidential Information"</strong> means any and all non-public information disclosed — directly or indirectly, in writing, orally, electronically, or by any other means — by GAMJOBS.io to the Receiving Party, including but not limited to:</p>
+          <ul>
+            <li>Business plans, strategies, growth roadmaps, and market analyses</li>
+            <li>Platform source code, algorithms, software architecture, and technical documentation</li>
+            <li>Product concepts, features under development, and unreleased functionalities</li>
+            <li>Employer and job seeker data, user profiles, and engagement metrics</li>
+            <li>Financial information, revenue models, and pricing strategies</li>
+            <li>Partnership agreements, vendor relationships, and investor details</li>
+            <li>Branding guidelines, design assets, and content strategies</li>
+            <li>Any information marked "confidential," "proprietary," or communicated in confidence</li>
+          </ul>
+          <p>Confidential Information does not include information that: (a) is or becomes publicly available through no breach of this Agreement; (b) was already known to the Receiving Party prior to disclosure; or (c) is independently developed by the Receiving Party without use of any Confidential Information.</p>
+        </section>
+
+        <hr class="divider" />
+
+        <!-- Section 2 -->
+        <section>
+          <span class="section-number">Section 2</span>
+          <h2>Obligations of the Receiving Party</h2>
+          <p>The Receiving Party agrees to:</p>
+          <ul>
+            <li>Hold all Confidential Information in strict confidence and treat it with at least the same degree of care used to protect their own confidential information (but no less than reasonable care)</li>
+            <li>Use Confidential Information solely for the purpose of evaluating or engaging with GAMJOBS.io's platform and services</li>
+            <li>Limit access to Confidential Information to individuals with a clear need to know, who are bound by substantially similar obligations</li>
+            <li>Promptly notify GAMJOBS.io in writing of any unauthorized disclosure, misuse, or suspected breach of this Agreement</li>
+            <li>Return or permanently delete any Confidential Information upon written request by GAMJOBS.io</li>
+          </ul>
+        </section>
+
+        <hr class="divider" />
+
+        <!-- Section 3 -->
+        <section>
+          <span class="section-number">Section 3</span>
+          <h2>Restrictions – Prohibited Activities</h2>
+          <p>Without the prior written consent of GAMJOBS.io, the Receiving Party shall not:</p>
+          <ul>
+            <li><strong>Share or disclose</strong> any Confidential Information to third parties, competitors, media, or the public in any form</li>
+            <li><strong>Copy, reproduce, or duplicate</strong> any materials, code, designs, concepts, or documentation belonging to GAMJOBS.io</li>
+            <li><strong>Use or exploit</strong> any ideas, innovations, or intellectual property of GAMJOBS.io to build competing products, services, or platforms</li>
+            <li><strong>Reverse engineer, decompile, or disassemble</strong> any software, technology, or platform component of GAMJOBS.io</li>
+            <li><strong>Misrepresent</strong> any information received from GAMJOBS.io or use it in a manner that could harm the platform's reputation or business interests</li>
+            <li><strong>Transfer, license, or sublicense</strong> any Confidential Information to any person or entity</li>
+          </ul>
+        </section>
+
+        <hr class="divider" />
+
+        <!-- Section 4 -->
+        <section>
+          <span class="section-number">Section 4</span>
+          <h2>Duration of Confidentiality</h2>
+          <p>The obligations of confidentiality under this Agreement shall commence upon the date of acceptance and shall remain in full force and effect for a period of <strong>five (5) years</strong> thereafter, unless otherwise terminated in writing by GAMJOBS.io.</p>
+          <p>Notwithstanding the above, obligations relating to trade secrets shall continue indefinitely for as long as the information qualifies as a trade secret under applicable law.</p>
+        </section>
+
+        <hr class="divider" />
+
+        <!-- Section 5 -->
+        <section>
+          <span class="section-number">Section 5</span>
+          <h2>Consequences of Breach</h2>
+          <div class="callout-danger">
+            <strong>⚠️ Important:</strong> Breach of this Agreement will be taken seriously and pursued through all available legal remedies.
+          </div>
+          <p style="margin-top: 0.85rem;">In the event of a breach or threatened breach of this Agreement by the Receiving Party, GAMJOBS.io shall be entitled to:</p>
+          <ul>
+            <li>Seek <strong>immediate injunctive relief</strong> and other equitable remedies without the requirement to post bond</li>
+            <li>Pursue <strong>monetary damages</strong>, including actual, incidental, and consequential damages caused by the breach</li>
+            <li>Seek recovery of <strong>legal fees and costs</strong> associated with enforcing this Agreement</li>
+            <li>Report the breach to relevant <strong>law enforcement or regulatory authorities</strong> in The Gambia and internationally</li>
+            <li>Permanently <strong>terminate access</strong> to the GAMJOBS.io platform and all associated services</li>
+          </ul>
+          <p>The Receiving Party acknowledges that a breach would cause irreparable harm to GAMJOBS.io for which monetary damages alone may not be an adequate remedy.</p>
+        </section>
+
+        <hr class="divider" />
+
+        <!-- Section 6 -->
+        <section>
+          <span class="section-number">Section 6</span>
+          <h2>Governing Law &amp; Dispute Resolution</h2>
+          <p>This Agreement shall be governed by and construed in accordance with the laws of <strong>The Republic of The Gambia</strong>. Any disputes arising out of or relating to this Agreement shall be subject to the exclusive jurisdiction of the competent courts of The Gambia.</p>
+          <p>In the event of a dispute, the parties agree to first attempt resolution through good-faith negotiation. If unresolved within thirty (30) days, the matter may be referred to arbitration in accordance with applicable Gambian arbitration law.</p>
+        </section>
+
+        <hr class="divider" />
+
+        <!-- Section 7 -->
+        <section>
+          <span class="section-number">Section 7</span>
+          <h2>Miscellaneous</h2>
+          <ul>
+            <li><strong>Entire Agreement:</strong> This Agreement constitutes the entire understanding between the parties concerning confidentiality and supersedes any prior discussions or understandings.</li>
+            <li><strong>Severability:</strong> If any provision is found unenforceable, the remaining provisions shall continue in full force.</li>
+            <li><strong>No Waiver:</strong> Failure to enforce any provision shall not constitute a waiver of any right.</li>
+            <li><strong>Amendments:</strong> GAMJOBS.io reserves the right to update this Agreement. Continued use of the platform constitutes acceptance of any revised terms.</li>
+          </ul>
+        </section>
+
+      </div><!-- /nda-body -->
+
+      <!-- ── Agreement Zone ── -->
+      <div class="agreement-zone">
+        <h3>Your Agreement</h3>
+
+        <!-- Name & Organisation Fields -->
+        <div class="field-row">
+          <div class="field-group">
+            <label for="full-name">Full Name</label>
+            <input type="text" id="full-name" placeholder="e.g. Fatou Jallow" autocomplete="name" />
+          </div>
+          <div class="field-group">
+            <label for="organisation">Organisation (optional)</label>
+            <input type="text" id="organisation" placeholder="e.g. Tech Solutions Ltd" autocomplete="organization" />
+          </div>
+        </div>
+
+        <!-- Checkbox -->
+        <label class="checkbox-row" for="agree-checkbox">
+          <input type="checkbox" id="agree-checkbox" />
+          <span class="check-label">
+            I, <strong id="name-display">the undersigned</strong>, confirm that I have read, understood, and agree to be legally bound by the terms of this Non-Disclosure Agreement with <strong>GAMJOBS.io</strong>. I understand that violating this agreement may result in legal action under the laws of The Gambia.
+          </span>
+        </label>
+
+        <!-- Validation Message -->
+        <div class="validation-msg" id="validation-msg">
+          <span>⛔</span> You must check the box above to confirm your agreement before continuing.
+        </div>
+
+        <!-- Button Row -->
+        <div class="btn-row">
+          <button class="btn-continue" id="continue-btn" disabled>
+            <span>🔐</span> I Agree — Continue to Platform
+          </button>
+          <span class="secure-note">🔒 Encrypted · Legally binding upon acceptance</span>
+        </div>
+
+        <!-- Success Banner -->
+        <div class="success-banner" id="success-banner">
+          <span class="s-icon">✅</span>
+          <span>
+            <strong>Agreement accepted.</strong> Your acceptance has been recorded. Welcome to GAMJOBS.io — your agreement is on file. Redirecting&hellip;
+          </span>
+        </div>
+
+      </div><!-- /agreement-zone -->
+
+    </div><!-- /nda-card -->
+  </main>
+
+  <!-- ════════════════════ FOOTER ════════════════════ -->
+  <footer>
+    <p>© GAMJOBS.io – All rights reserved &nbsp;|&nbsp; <a href="#">Privacy Policy</a> &nbsp;|&nbsp; <a href="#">Terms of Use</a> &nbsp;|&nbsp; <a href="mailto:legal@gamjobs.io">legal@gamjobs.io</a></p>
+    <p style="margin-top: 0.35rem; color: #aaa;">GAMJOBS.io is a registered platform operating under the jurisdiction of The Republic of The Gambia.</p>
+  </footer>
+
+  <!-- ════════════════════ JAVASCRIPT ════════════════════ -->
+  <script>
+    (function () {
+      const checkbox     = document.getElementById('agree-checkbox');
+      const continueBtn  = document.getElementById('continue-btn');
+      const validationMsg = document.getElementById('validation-msg');
+      const successBanner = document.getElementById('success-banner');
+      const nameInput    = document.getElementById('full-name');
+      const nameDisplay  = document.getElementById('name-display');
+
+      /* Live-update the name in the checkbox label as user types */
+      nameInput.addEventListener('input', function () {
+        const val = this.value.trim();
+        nameDisplay.textContent = val.length > 0 ? val : 'the undersigned';
+      });
+
+      /* Enable/disable button based on checkbox */
+      checkbox.addEventListener('change', function () {
+        if (this.checked) {
+          continueBtn.disabled = false;
+          continueBtn.classList.add('active');
+          validationMsg.classList.remove('visible');
+        } else {
+          continueBtn.disabled = true;
+          continueBtn.classList.remove('active');
+        }
+      });
+
+      /* Handle Continue click */
+      continueBtn.addEventListener('click', function () {
+        /* Guard: must be checked (extra safety) */
+        if (!checkbox.checked) {
+          validationMsg.classList.add('visible');
+          checkbox.focus();
+          return;
+        }
+
+        /* Optional: warn if name is empty */
+        const name = nameInput.value.trim();
+        if (name === '') {
+          const proceed = confirm('You have not entered your full name.\nDo you still wish to proceed without signing your name?');
+          if (!proceed) {
+            nameInput.focus();
+            return;
+          }
+        }
+
+        /* Record timestamp of acceptance */
+        const timestamp = new Date().toLocaleString('en-GB', { timeZone: 'Africa/Banjul' });
+        console.info('[GAMJOBS NDA] Accepted by:', name || 'Anonymous', 'at', timestamp);
+
+        /* UI feedback */
+        continueBtn.disabled = true;
+        continueBtn.textContent = '✓ Agreement Recorded';
+        continueBtn.style.background = 'linear-gradient(135deg, #0F6E56, #085041)';
+        continueBtn.classList.remove('active');
+        successBanner.classList.add('visible');
+
+        /* Scroll to success message */
+        successBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        /* Simulate redirect after 2.5s */
+        setTimeout(function () {
+          /* Replace with your actual platform URL when ready */
+          alert('Redirecting to GAMJOBS.io platform...\n(Replace this with your actual redirect URL)');
+          /* window.location.href = 'https://gamjobs.io/dashboard'; */
+        }, 2500);
+      });
+
+      /* Show validation msg if button somehow clicked while disabled via keyboard */
+      continueBtn.addEventListener('keydown', function (e) {
+        if ((e.key === 'Enter' || e.key === ' ') && this.disabled) {
+          validationMsg.classList.add('visible');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
