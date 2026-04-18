@@ -1,633 +1,1056 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Non-Disclosure Agreement – GAMJOBS.io</title>
-  <style>
-    /* ── Reset & Base ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics Quiz Speed Test</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6889b8;
+            --accent-color: #ffd700;
+            --correct-color: #4caf50;
+            --incorrect-color: #f44336;
+            --timer-bg: #e0e0e0;
+            --white: #ffffff;
+            --dark: #333333;
+            --gray: #808080;
+            --light-gray: #f5f5f5;
+        }
 
-    :root {
-      --blue-50: #E6F1FB;
-      --blue-100: #B5D4F4;
-      --blue-400: #378ADD;
-      --blue-600: #185FA5;
-      --blue-800: #0C447C;
-      --teal-50: #E1F5EE;
-      --teal-400: #1D9E75;
-      --teal-600: #0F6E56;
-      --teal-800: #085041;
-      --red-50: #FCEBEB;
-      --red-400: #E24B4A;
-      --red-600: #A32D2D;
-      --amber-50: #FAEEDA;
-      --amber-400: #BA7517;
-      --gray-50: #F1EFE8;
-      --gray-100: #D3D1C7;
-      --gray-200: #B4B2A9;
-      --gray-600: #5F5E5A;
-      --gray-800: #444441;
-      --gray-900: #2C2C2A;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: #f4f7fc;
-      color: var(--gray-900);
-      line-height: 1.75;
-      font-size: 15px;
-      min-height: 100vh;
-    }
+        body {
+            background-color: var(--light-gray);
+            color: var(--dark);
+            line-height: 1.6;
+        }
 
-    /* ── Header / Hero ── */
-    .site-header {
-      background: linear-gradient(135deg, var(--blue-800) 0%, var(--teal-600) 100%);
-      color: #fff;
-      padding: 2.5rem 1.5rem 2rem;
-      text-align: center;
-    }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    .site-header .logo {
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      color: #fff;
-      text-decoration: none;
-      display: inline-block;
-      margin-bottom: 1.25rem;
-    }
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
 
-    .logo span { color: var(--teal-400); }
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
 
-    .site-header h1 {
-      font-size: clamp(1.5rem, 4vw, 2.1rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.5rem;
-    }
+        .topic-selection {
+            margin-bottom: 2rem;
+        }
 
-    .site-header p.subtitle {
-      font-size: 0.95rem;
-      opacity: 0.85;
-      max-width: 520px;
-      margin: 0 auto;
-    }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
 
-    /* ── Warning Banner ── */
-    .legal-warning {
-      background: var(--amber-50);
-      border-left: 4px solid var(--amber-400);
-      border-radius: 0 8px 8px 0;
-      padding: 0.85rem 1.1rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.65rem;
-      font-size: 0.875rem;
-      color: #5c3c08;
-      max-width: 820px;
-      margin: 1.75rem auto 0;
-    }
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: var(--white);
+            cursor: pointer;
+        }
 
-    .legal-warning .icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-    /* ── Main Layout ── */
-    main {
-      max-width: 820px;
-      margin: 2rem auto 3rem;
-      padding: 0 1.25rem;
-    }
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
 
-    /* ── Document Card ── */
-    .nda-card {
-      background: #ffffff;
-      border-radius: 14px;
-      border: 1px solid var(--gray-100);
-      box-shadow: 0 4px 24px rgba(24, 95, 165, 0.07), 0 1px 4px rgba(0,0,0,0.05);
-      overflow: hidden;
-    }
+        .btn-start {
+            display: block;
+            width: 100%;
+            margin-top: 1rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
 
-    /* ── Doc Metadata Bar ── */
-    .doc-meta {
-      background: var(--blue-50);
-      border-bottom: 1px solid var(--blue-100);
-      padding: 0.85rem 1.75rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem 1.5rem;
-      font-size: 0.8rem;
-      color: var(--blue-600);
-    }
+        .quiz-container {
+            display: none;
+        }
 
-    .doc-meta span { display: flex; align-items: center; gap: 0.35rem; }
-    .doc-meta strong { font-weight: 600; }
+        .question-container {
+            margin-bottom: 1.5rem;
+        }
 
-    /* ── NDA Body ── */
-    .nda-body { padding: 2rem 2.25rem; }
+        .timer-container {
+            margin-bottom: 1rem;
+        }
 
-    .nda-body section { margin-bottom: 1.85rem; }
+        .timer-bar {
+            height: 10px;
+            width: 100%;
+            background-color: var(--timer-bg);
+            border-radius: 5px;
+            overflow: hidden;
+        }
 
-    .section-number {
-      display: inline-block;
-      background: var(--blue-50);
-      color: var(--blue-800);
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 2px 8px;
-      border-radius: 20px;
-      margin-bottom: 0.45rem;
-    }
+        .timer-progress {
+            height: 100%;
+            width: 100%;
+            background-color: var(--primary-color);
+            transition: width 1s linear;
+        }
 
-    .nda-body h2 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--blue-800);
-      margin-bottom: 0.6rem;
-    }
+        .question {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
 
-    .nda-body p { margin-bottom: 0.6rem; color: var(--gray-800); }
-    .nda-body p:last-child { margin-bottom: 0; }
+        .options {
+            list-style-type: none;
+        }
 
-    .nda-body ul {
-      padding-left: 1.35rem;
-      color: var(--gray-800);
-    }
+        .option {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background-color: var(--light-gray);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
 
-    .nda-body ul li { margin-bottom: 0.4rem; }
+        .option:hover {
+            background-color: #e8e8e8;
+        }
 
-    .divider {
-      border: none;
-      border-top: 1px solid var(--gray-100);
-      margin: 1.75rem 0;
-    }
+        .option.correct {
+            background-color: var(--correct-color);
+            color: var(--white);
+        }
 
-    /* ── Breach / Consequences callout ── */
-    .callout-danger {
-      background: var(--red-50);
-      border-left: 3px solid var(--red-400);
-      border-radius: 0 8px 8px 0;
-      padding: 0.85rem 1.1rem;
-      font-size: 0.9rem;
-      color: var(--red-600);
-    }
+        .option.incorrect {
+            background-color: var(--incorrect-color);
+            color: var(--white);
+        }
 
-    .callout-danger strong { color: var(--red-600); }
+        .feedback {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
 
-    /* ── Agreement Zone ── */
-    .agreement-zone {
-      background: var(--gray-50);
-      border-top: 1px solid var(--gray-100);
-      padding: 1.75rem 2.25rem;
-    }
+        .correct-feedback {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--correct-color);
+        }
 
-    .agreement-zone h3 {
-      font-size: 0.875rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--gray-600);
-      margin-bottom: 1.25rem;
-    }
+        .incorrect-feedback {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: var(--incorrect-color);
+        }
 
-    .field-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1.25rem;
-    }
+        .question-counter {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
 
-    .field-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
+        .results {
+            display: none;
+            text-align: center;
+        }
 
-    .field-group label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--gray-600);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
+        .score {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
 
-    .field-group input[type="text"] {
-      border: 1.5px solid var(--gray-100);
-      border-radius: 8px;
-      padding: 0.6rem 0.85rem;
-      font-size: 0.925rem;
-      background: #fff;
-      color: var(--gray-900);
-      transition: border-color 0.2s;
-      outline: none;
-      width: 100%;
-    }
+        .restart-btn {
+            margin-top: 1rem;
+        }
 
-    .field-group input[type="text"]:focus {
-      border-color: var(--blue-400);
-      box-shadow: 0 0 0 3px rgba(55, 138, 221, 0.12);
-    }
+        .blurred-option {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
 
-    /* ── Checkbox Row ── */
-    .checkbox-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      margin-bottom: 1.25rem;
-      cursor: pointer;
-    }
+        .upgrade-message {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 1rem;
+            background-color: rgba(255, 215, 0, 0.2);
+            border: 1px solid var(--accent-color);
+            border-radius: 5px;
+            font-weight: bold;
+            color: #ff8c00;
+        }
 
-    .checkbox-row input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-      margin-top: 2px;
-      accent-color: var(--blue-600);
-      cursor: pointer;
-    }
+        /* Add styles for popup ad */
+        .popup-ad {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            text-align: center;
+            z-index: 9999;
+            text-decoration: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .checkbox-row .check-label {
-      font-size: 0.9rem;
-      color: var(--gray-800);
-      line-height: 1.55;
-    }
+        .popup-content {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            margin: 0 auto;
+        }
 
-    .checkbox-row .check-label strong {
-      color: var(--gray-900);
-    }
+        .popup-ad h3 {
+            color: white;
+            font-size: 24px;
+            margin: 20px 0;
+        }
 
-    /* ── Validation message ── */
-    .validation-msg {
-      font-size: 0.825rem;
-      color: var(--red-600);
-      margin-bottom: 1rem;
-      display: none;
-      align-items: center;
-      gap: 0.4rem;
-    }
+        .popup-ad p {
+            color: white;
+            font-size: 18px;
+            margin: 15px 0;
+        }
 
-    .validation-msg.visible { display: flex; }
+        .popup-ad .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #ff9800;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-size: 18px;
+            width: 80%;
+            max-width: 300px;
+        }
 
-    /* ── Continue Button ── */
-    .btn-continue {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: linear-gradient(135deg, var(--blue-600), var(--teal-600));
-      color: #fff;
-      border: none;
-      border-radius: 9px;
-      padding: 0.75rem 2rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: not-allowed;
-      opacity: 0.45;
-      transition: opacity 0.25s, transform 0.15s, box-shadow 0.25s;
-      letter-spacing: 0.01em;
-    }
+        .popup-ad .countdown {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #ffc107;
+            font-size: 16px;
+        }
 
-    .btn-continue.active {
-      cursor: pointer;
-      opacity: 1;
-      box-shadow: 0 4px 16px rgba(24, 95, 165, 0.28);
-    }
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
 
-    .btn-continue.active:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(24, 95, 165, 0.35);
-    }
+        /* Add styles for share functionality */
+        .share-container {
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
 
-    .btn-continue.active:active { transform: scale(0.98); }
+        .share-progress {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
 
-    .btn-row {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
+        .share-progress-bar {
+            width: 0%;
+            height: 20px;
+            background-color: #4CAF50;
+            transition: width 0.5s ease;
+        }
 
-    .secure-note {
-      font-size: 0.78rem;
-      color: var(--gray-600);
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
+        .telegram-share-btn {
+            background-color: #2eaade;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px 0;
+            transition: background-color 0.3s;
+        }
 
-    /* ── Success State ── */
-    .success-banner {
-      display: none;
-      background: #e9f8f1;
-      border: 1px solid #86d9b8;
-      border-radius: 10px;
-      padding: 1.1rem 1.35rem;
-      color: var(--teal-800);
-      font-size: 0.9rem;
-      align-items: center;
-      gap: 0.75rem;
-      margin-top: 1rem;
-    }
+        .telegram-share-btn:hover {
+            background-color: #239ac4;
+        }
 
-    .success-banner.visible { display: flex; }
-    .success-banner .s-icon { font-size: 1.4rem; }
+        .telegram-share-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
 
-    /* ── Footer ── */
-    footer {
-      text-align: center;
-      padding: 1.75rem 1rem 2.5rem;
-      font-size: 0.8rem;
-      color: var(--gray-200);
-    }
+        .share-instructions {
+            color: #666;
+            margin-bottom: 15px;
+        }
 
-    footer a { color: var(--gray-200); text-decoration: underline; }
+        /* Add styles for answers summary */
+        .answers-section {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+        }
 
-    /* ── Mobile ── */
-    @media (max-width: 600px) {
-      .nda-body { padding: 1.35rem 1.25rem; }
-      .agreement-zone { padding: 1.35rem 1.25rem; }
-      .field-row { grid-template-columns: 1fr; }
-      .doc-meta { padding: 0.75rem 1.25rem; }
-    }
-  </style>
+        #correct-answers {
+            background-color: #e8f5e9;
+        }
+
+        #wrong-answers {
+            background-color: #ffebee;
+        }
+
+        .answers-section h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .answers-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .answers-section li {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            background-color: white;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>Mathematics Quiz Speed Test</h1>
+            <p>Test your math skills with a timed quiz!</p>
+        </header>
 
-  <!-- ════════════════════ HEADER ════════════════════ -->
-  <header class="site-header">
-    <a href="#" class="logo">GAM<span>JOBS</span>.io</a>
-    <h1>Non-Disclosure Agreement</h1>
-    <p class="subtitle">Please read this agreement carefully before accessing platform features, submitting content, or sharing ideas with GAMJOBS.io.</p>
-    <div class="legal-warning">
-      <span class="icon">⚠️</span>
-      <span><strong>Legal Notice:</strong> This is a legally binding document. Violation of its terms may result in civil and/or criminal liability under the laws of The Gambia and applicable international law.</span>
+        <div class="topic-selection" id="topicSelection">
+            <label for="topic">Select a Topic:</label>
+            <select id="topic">
+                <option value="">-- Select a topic --</option>
+                <option value="algebra">Algebra</option>
+                <option value="geometry">Geometry</option>
+                <option value="calculus">Calculus</option>
+                <option value="statistics" class="blurred-option">Statistics</option>
+                <option value="trigonometry" class="blurred-option">Trigonometry</option>
+                <option value="number-theory" class="blurred-option">Number Theory</option>
+                <option value="discrete-math" class="blurred-option">Discrete Mathematics</option>
+            </select>
+            <button id="startBtn" class="btn btn-start">Start Quiz</button>
+            <div id="upgradeMessage" class="upgrade-message">UPGRADE TO PRO</div>
+        </div>
+
+        <div id="quizContainer" class="quiz-container">
+            <div class="question-counter" id="questionCounter">Question 1 of 10</div>
+            <div class="timer-container">
+                <div class="timer-bar">
+                    <div class="timer-progress" id="timerProgress"></div>
+                </div>
+            </div>
+            <div class="question-container">
+                <div class="question" id="question"></div>
+                <ul class="options" id="options"></ul>
+                <div class="feedback" id="feedback"></div>
+            </div>
+        </div>
+
+        <div id="results" class="results">
+            <h2>Quiz Completed!</h2>
+            <p>Your score:</p>
+            <div class="score" id="score">**</div>
+            
+            <div class="share-container">
+                <h3>Share and Unlock Full Score!</h3>
+                <p class="share-instructions">Share the quiz with friends to reveal your complete results!</p>
+                
+                <div class="share-progress">
+                    <div class="share-progress-bar" id="share-progress-bar"></div>
+                </div>
+                
+                <p id="share-count-text">Shares: 0/5</p>
+                
+                <button id="telegram-share-btn" class="telegram-share-btn">
+                    Share on Telegram
+                </button>
+                
+                <button id="reveal-score-btn" class="btn" disabled>
+                    Reveal Full Score
+                </button>
+            </div>
+            
+            <div id="answers-summary" style="display: none;">
+                <h3>Your Answers Summary</h3>
+                <div id="correct-answers" class="answers-section">
+                    <h4>Correct Answers: <span id="correct-count">0</span></h4>
+                    <ul id="correct-list"></ul>
+                </div>
+                <div id="wrong-answers" class="answers-section">
+                    <h4>Incorrect Answers: <span id="wrong-count">0</span></h4>
+                    <ul id="wrong-list"></ul>
+                </div>
+            </div>
+            
+            <p id="timeStats"></p>
+            <button id="restartBtn" class="btn restart-btn" style="display: none;">Take Another Quiz</button>
+        </div>
     </div>
-  </header>
 
-  <!-- ════════════════════ MAIN ════════════════════ -->
-  <main>
-    <div class="nda-card">
-
-      <!-- Doc Meta -->
-      <div class="doc-meta">
-        <span>📄 <strong>Document:</strong> NDA-GAMJOBS-2025</span>
-        <span>📍 <strong>Jurisdiction:</strong> The Gambia</span>
-        <span>📅 <strong>Effective:</strong> Upon acceptance</span>
-        <span>🔒 <strong>Confidential</strong></span>
-      </div>
-
-      <!-- NDA Content -->
-      <div class="nda-body">
-
-        <!-- Preamble -->
-        <section>
-          <span class="section-number">Preamble</span>
-          <h2>Introduction</h2>
-          <p>This Non-Disclosure Agreement ("Agreement") is entered into between <strong>GAMJOBS.io</strong> ("Disclosing Party"), a digital employment and talent platform operating under the laws of The Gambia, and the individual or entity accessing, registering on, or otherwise engaging with GAMJOBS.io ("Receiving Party").</p>
-          <p>By accessing the platform or proceeding beyond this page, the Receiving Party acknowledges having read, understood, and agreed to be legally bound by the terms of this Agreement. This Agreement is intended to protect the proprietary interests, business strategies, technological innovations, and intellectual assets of GAMJOBS.io.</p>
-        </section>
-
-        <hr class="divider" />
-
-        <!-- Section 1 -->
-        <section>
-          <span class="section-number">Section 1</span>
-          <h2>Definition of Confidential Information</h2>
-          <p>For purposes of this Agreement, <strong>"Confidential Information"</strong> means any and all non-public information disclosed — directly or indirectly, in writing, orally, electronically, or by any other means — by GAMJOBS.io to the Receiving Party, including but not limited to:</p>
-          <ul>
-            <li>Business plans, strategies, growth roadmaps, and market analyses</li>
-            <li>Platform source code, algorithms, software architecture, and technical documentation</li>
-            <li>Product concepts, features under development, and unreleased functionalities</li>
-            <li>Employer and job seeker data, user profiles, and engagement metrics</li>
-            <li>Financial information, revenue models, and pricing strategies</li>
-            <li>Partnership agreements, vendor relationships, and investor details</li>
-            <li>Branding guidelines, design assets, and content strategies</li>
-            <li>Any information marked "confidential," "proprietary," or communicated in confidence</li>
-          </ul>
-          <p>Confidential Information does not include information that: (a) is or becomes publicly available through no breach of this Agreement; (b) was already known to the Receiving Party prior to disclosure; or (c) is independently developed by the Receiving Party without use of any Confidential Information.</p>
-        </section>
-
-        <hr class="divider" />
-
-        <!-- Section 2 -->
-        <section>
-          <span class="section-number">Section 2</span>
-          <h2>Obligations of the Receiving Party</h2>
-          <p>The Receiving Party agrees to:</p>
-          <ul>
-            <li>Hold all Confidential Information in strict confidence and treat it with at least the same degree of care used to protect their own confidential information (but no less than reasonable care)</li>
-            <li>Use Confidential Information solely for the purpose of evaluating or engaging with GAMJOBS.io's platform and services</li>
-            <li>Limit access to Confidential Information to individuals with a clear need to know, who are bound by substantially similar obligations</li>
-            <li>Promptly notify GAMJOBS.io in writing of any unauthorized disclosure, misuse, or suspected breach of this Agreement</li>
-            <li>Return or permanently delete any Confidential Information upon written request by GAMJOBS.io</li>
-          </ul>
-        </section>
-
-        <hr class="divider" />
-
-        <!-- Section 3 -->
-        <section>
-          <span class="section-number">Section 3</span>
-          <h2>Restrictions – Prohibited Activities</h2>
-          <p>Without the prior written consent of GAMJOBS.io, the Receiving Party shall not:</p>
-          <ul>
-            <li><strong>Share or disclose</strong> any Confidential Information to third parties, competitors, media, or the public in any form</li>
-            <li><strong>Copy, reproduce, or duplicate</strong> any materials, code, designs, concepts, or documentation belonging to GAMJOBS.io</li>
-            <li><strong>Use or exploit</strong> any ideas, innovations, or intellectual property of GAMJOBS.io to build competing products, services, or platforms</li>
-            <li><strong>Reverse engineer, decompile, or disassemble</strong> any software, technology, or platform component of GAMJOBS.io</li>
-            <li><strong>Misrepresent</strong> any information received from GAMJOBS.io or use it in a manner that could harm the platform's reputation or business interests</li>
-            <li><strong>Transfer, license, or sublicense</strong> any Confidential Information to any person or entity</li>
-          </ul>
-        </section>
-
-        <hr class="divider" />
-
-        <!-- Section 4 -->
-        <section>
-          <span class="section-number">Section 4</span>
-          <h2>Duration of Confidentiality</h2>
-          <p>The obligations of confidentiality under this Agreement shall commence upon the date of acceptance and shall remain in full force and effect for a period of <strong>five (5) years</strong> thereafter, unless otherwise terminated in writing by GAMJOBS.io.</p>
-          <p>Notwithstanding the above, obligations relating to trade secrets shall continue indefinitely for as long as the information qualifies as a trade secret under applicable law.</p>
-        </section>
-
-        <hr class="divider" />
-
-        <!-- Section 5 -->
-        <section>
-          <span class="section-number">Section 5</span>
-          <h2>Consequences of Breach</h2>
-          <div class="callout-danger">
-            <strong>⚠️ Important:</strong> Breach of this Agreement will be taken seriously and pursued through all available legal remedies.
-          </div>
-          <p style="margin-top: 0.85rem;">In the event of a breach or threatened breach of this Agreement by the Receiving Party, GAMJOBS.io shall be entitled to:</p>
-          <ul>
-            <li>Seek <strong>immediate injunctive relief</strong> and other equitable remedies without the requirement to post bond</li>
-            <li>Pursue <strong>monetary damages</strong>, including actual, incidental, and consequential damages caused by the breach</li>
-            <li>Seek recovery of <strong>legal fees and costs</strong> associated with enforcing this Agreement</li>
-            <li>Report the breach to relevant <strong>law enforcement or regulatory authorities</strong> in The Gambia and internationally</li>
-            <li>Permanently <strong>terminate access</strong> to the GAMJOBS.io platform and all associated services</li>
-          </ul>
-          <p>The Receiving Party acknowledges that a breach would cause irreparable harm to GAMJOBS.io for which monetary damages alone may not be an adequate remedy.</p>
-        </section>
-
-        <hr class="divider" />
-
-        <!-- Section 6 -->
-        <section>
-          <span class="section-number">Section 6</span>
-          <h2>Governing Law &amp; Dispute Resolution</h2>
-          <p>This Agreement shall be governed by and construed in accordance with the laws of <strong>The Republic of The Gambia</strong>. Any disputes arising out of or relating to this Agreement shall be subject to the exclusive jurisdiction of the competent courts of The Gambia.</p>
-          <p>In the event of a dispute, the parties agree to first attempt resolution through good-faith negotiation. If unresolved within thirty (30) days, the matter may be referred to arbitration in accordance with applicable Gambian arbitration law.</p>
-        </section>
-
-        <hr class="divider" />
-
-        <!-- Section 7 -->
-        <section>
-          <span class="section-number">Section 7</span>
-          <h2>Miscellaneous</h2>
-          <ul>
-            <li><strong>Entire Agreement:</strong> This Agreement constitutes the entire understanding between the parties concerning confidentiality and supersedes any prior discussions or understandings.</li>
-            <li><strong>Severability:</strong> If any provision is found unenforceable, the remaining provisions shall continue in full force.</li>
-            <li><strong>No Waiver:</strong> Failure to enforce any provision shall not constitute a waiver of any right.</li>
-            <li><strong>Amendments:</strong> GAMJOBS.io reserves the right to update this Agreement. Continued use of the platform constitutes acceptance of any revised terms.</li>
-          </ul>
-        </section>
-
-      </div><!-- /nda-body -->
-
-      <!-- ── Agreement Zone ── -->
-      <div class="agreement-zone">
-        <h3>Your Agreement</h3>
-
-        <!-- Name & Organisation Fields -->
-        <div class="field-row">
-          <div class="field-group">
-            <label for="full-name">Full Name</label>
-            <input type="text" id="full-name" placeholder="e.g. Fatou Jallow" autocomplete="name" />
-          </div>
-          <div class="field-group">
-            <label for="organisation">Organisation (optional)</label>
-            <input type="text" id="organisation" placeholder="e.g. Tech Solutions Ltd" autocomplete="organization" />
-          </div>
+    <!-- Add popup ad HTML -->
+    <a id="popupAd" class="popup-ad" href="https://yourquizsite.com/pro" target="_blank">
+        <button class="close-button" onclick="closePopup(event)">✕</button>
+        <div class="popup-content">
+            <h3>🚀 Upgrade to Quiz Pro!</h3>
+            <p><strong>Unlock More Features:</strong> Get access to all MATH Quiz Topics, advanced analytics, and exclusive rewards!</p>
+            <p>Join the Pro Version now and take your learning to the next level! 🚀</p>    
+            <div class="cta-button">
+                CLICK HERE TO UPGRADE
+            </div>
+            <p id="countdown" class="countdown">Click X at the top right to close this Popup</p>
         </div>
+    </a>
 
-        <!-- Checkbox -->
-        <label class="checkbox-row" for="agree-checkbox">
-          <input type="checkbox" id="agree-checkbox" />
-          <span class="check-label">
-            I, <strong id="name-display">the undersigned</strong>, confirm that I have read, understood, and agree to be legally bound by the terms of this Non-Disclosure Agreement with <strong>GAMJOBS.io</strong>. I understand that violating this agreement may result in legal action under the laws of The Gambia.
-          </span>
-        </label>
+    <script>
+        // DOM elements
+        const topicSelectionEl = document.getElementById('topicSelection');
+        const topicSelectEl = document.getElementById('topic');
+        const startBtn = document.getElementById('startBtn');
+        const upgradeMessageEl = document.getElementById('upgradeMessage');
+        const quizContainerEl = document.getElementById('quizContainer');
+        const questionCounterEl = document.getElementById('questionCounter');
+        const questionEl = document.getElementById('question');
+        const optionsEl = document.getElementById('options');
+        const feedbackEl = document.getElementById('feedback');
+        const timerProgressEl = document.getElementById('timerProgress');
+        const resultsEl = document.getElementById('results');
+        const scoreEl = document.getElementById('score');
+        const timeStatsEl = document.getElementById('timeStats');
+        const restartBtn = document.getElementById('restartBtn');
 
-        <!-- Validation Message -->
-        <div class="validation-msg" id="validation-msg">
-          <span>⛔</span> You must check the box above to confirm your agreement before continuing.
-        </div>
+        // Quiz state
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 60;
+        let questions = [];
+        let startTime, endTime;
+        let answeredQuestions = 0;
+        let totalTimeUsed = 0;
+        let userAnswers = [];
+        let quizScore = 0;
+        let shareCount = 0;
 
-        <!-- Button Row -->
-        <div class="btn-row">
-          <button class="btn-continue" id="continue-btn" disabled>
-            <span>🔐</span> I Agree — Continue to Platform
-          </button>
-          <span class="secure-note">🔒 Encrypted · Legally binding upon acceptance</span>
-        </div>
+        // Additional DOM elements for new functionality
+        const telegramShareBtn = document.getElementById('telegram-share-btn');
+        const revealScoreBtn = document.getElementById('reveal-score-btn');
+        const shareProgressBar = document.getElementById('share-progress-bar');
+        const shareCountText = document.getElementById('share-count-text');
+        const answersSummary = document.getElementById('answers-summary');
 
-        <!-- Success Banner -->
-        <div class="success-banner" id="success-banner">
-          <span class="s-icon">✅</span>
-          <span>
-            <strong>Agreement accepted.</strong> Your acceptance has been recorded. Welcome to GAMJOBS.io — your agreement is on file. Redirecting&hellip;
-          </span>
-        </div>
 
-      </div><!-- /agreement-zone -->
 
-    </div><!-- /nda-card -->
-  </main>
+// Questions bank
+        const questionsBank = {
+            algebra: [
+                {
+                    question: "Solve for x: 2x + 5 = 13",
+                    options: ["x = 4", "x = 5", "x = 3", "x = 6"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Simplify: 3(x - 2) - 2(x + 1)",
+                    options: ["x - 8", "x - 4", "5x - 8", "x - 6"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Factor: x² - 9",
+                    options: ["(x+3)(x-3)", "(x-3)²", "(x+3)²", "(x+9)(x-1)"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Solve: 4x - 2 > 10",
+                    options: ["x > 3", "x < 3", "x > 2", "x < 2"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "If f(x) = 2x² + 3x - 1, find f(2)",
+                    options: ["13", "11", "15", "9"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Solve the system: x + y = 5, 2x - y = 4",
+                    options: ["x = 3, y = 2", "x = 2, y = 3", "x = 4, y = 1", "x = 1, y = 4"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Which is the quadratic formula?",
+                    options: ["x = (-b ± √(b² - 4ac)) / 2a", "x = -b/a", "x = -c/b", "x = (a ± √(b² - 4ac)) / 2a"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Simplify: (3x² - 2x + 1) - (x² + 2x - 3)",
+                    options: ["2x² - 4x + 4", "4x² - 4x - 2", "2x² - 4x - 4", "4x² + 0x + 4"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Solve: |2x - 4| = 6",
+                    options: ["x = -1 or x = 5", "x = 1 or x = 5", "x = -1 or x = -5", "x = 1 or x = -5"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "If y varies directly with x, and y = 15 when x = 3, find y when x = 7",
+                    options: ["y = 35", "y = 21", "y = 28", "y = 45"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Expand: (x + 2)³",
+                    options: ["x³ + 6x² + 12x + 8", "x³ + 6x² + 12x + 6", "x³ + 6x² + 6x + 8", "x³ + 3x² + 3x + 1"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Solve for x: log₂(x) = 3",
+                    options: ["x = 8", "x = 6", "x = 9", "x = 16"],
+                    correctAnswer: 0
+                }
+            ],
+            geometry: [
+                {
+                    question: "What is the formula for the area of a circle?",
+                    options: ["πr²", "2πr", "πd", "2πd"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "In a right triangle, if one angle is 30°, what is another angle?",
+                    options: ["60°", "45°", "30°", "90°"],
+                    correctAnswer: 3
+                },
+                {
+                    question: "What is the sum of interior angles of a pentagon?",
+                    options: ["540°", "360°", "720°", "180°"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "The Pythagorean theorem relates to which type of triangle?",
+                    options: ["Right triangle", "Equilateral triangle", "Isosceles triangle", "Scalene triangle"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the volume of a cube with side length 3?",
+                    options: ["27", "9", "6", "18"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Two angles that sum to 90° are called:",
+                    options: ["Complementary angles", "Supplementary angles", "Vertical angles", "Adjacent angles"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the area of a triangle with base 8 and height 5?",
+                    options: ["20", "40", "13", "10"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "If a rectangle has length 12 and width 5, what is its perimeter?",
+                    options: ["34", "17", "60", "24"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the formula for the circumference of a circle?",
+                    options: ["2πr", "πr²", "πd/2", "2πd"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "In similar triangles, corresponding sides are:",
+                    options: ["Proportional", "Equal", "Perpendicular", "Parallel"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the measure of each interior angle in a regular hexagon?",
+                    options: ["120°", "60°", "108°", "135°"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the surface area of a sphere with radius r?",
+                    options: ["4πr²", "πr²", "4/3πr³", "2πr"],
+                    correctAnswer: 0
+                }
+            ],
+            calculus: [
+                {
+                    question: "What is the derivative of f(x) = x²?",
+                    options: ["f'(x) = 2x", "f'(x) = x", "f'(x) = 2", "f'(x) = x²"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the integral of f(x) = 2x?",
+                    options: ["F(x) = x² + C", "F(x) = 2x² + C", "F(x) = x + C", "F(x) = 2 ln|x| + C"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the derivative of f(x) = sin(x)?",
+                    options: ["f'(x) = cos(x)", "f'(x) = -sin(x)", "f'(x) = -cos(x)", "f'(x) = tan(x)"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the chain rule used for?",
+                    options: ["Finding derivatives of composite functions", "Finding integrals", "Finding limits", "Solving differential equations"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the derivative of f(x) = e^x?",
+                    options: ["f'(x) = e^x", "f'(x) = xe^x", "f'(x) = e^(x-1)", "f'(x) = 1/x"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the integral of f(x) = 1/x?",
+                    options: ["F(x) = ln|x| + C", "F(x) = x ln|x| + C", "F(x) = 1/ln|x| + C", "F(x) = e^x + C"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "If f'(x) = 6x, then f(x) could be:",
+                    options: ["f(x) = 3x² + C", "f(x) = 6 ln|x| + C", "f(x) = 6x + C", "f(x) = x^6/6 + C"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the limit as x approaches 0 of sin(x)/x?",
+                    options: ["1", "0", "∞", "Does not exist"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "The second derivative represents:",
+                    options: ["Rate of change of the rate of change", "Position", "Velocity", "Area under curve"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the derivative of f(x) = ln(x)?",
+                    options: ["f'(x) = 1/x", "f'(x) = ln(x)", "f'(x) = x", "f'(x) = e^x"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What does the Fundamental Theorem of Calculus connect?",
+                    options: ["Differentiation and integration", "Limits and continuity", "Series and sequences", "Functions and their inverses"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "What is the derivative of a constant function f(x) = C?",
+                    options: ["f'(x) = 0", "f'(x) = 1", "f'(x) = C", "f'(x) = -C"],
+                    correctAnswer: 0
+                }
+            ]
+        };
 
-  <!-- ════════════════════ FOOTER ════════════════════ -->
-  <footer>
-    <p>© GAMJOBS.io – All rights reserved &nbsp;|&nbsp; <a href="#">Privacy Policy</a> &nbsp;|&nbsp; <a href="#">Terms of Use</a> &nbsp;|&nbsp; <a href="mailto:legal@gamjobs.io">legal@gamjobs.io</a></p>
-    <p style="margin-top: 0.35rem; color: #aaa;">GAMJOBS.io is a registered platform operating under the jurisdiction of The Republic of The Gambia.</p>
-  </footer>
 
-  <!-- ════════════════════ JAVASCRIPT ════════════════════ -->
-  <script>
-    (function () {
-      const checkbox     = document.getElementById('agree-checkbox');
-      const continueBtn  = document.getElementById('continue-btn');
-      const validationMsg = document.getElementById('validation-msg');
-      const successBanner = document.getElementById('success-banner');
-      const nameInput    = document.getElementById('full-name');
-      const nameDisplay  = document.getElementById('name-display');
-
-      /* Live-update the name in the checkbox label as user types */
-      nameInput.addEventListener('input', function () {
-        const val = this.value.trim();
-        nameDisplay.textContent = val.length > 0 ? val : 'the undersigned';
-      });
-
-      /* Enable/disable button based on checkbox */
-      checkbox.addEventListener('change', function () {
-        if (this.checked) {
-          continueBtn.disabled = false;
-          continueBtn.classList.add('active');
-          validationMsg.classList.remove('visible');
-        } else {
-          continueBtn.disabled = true;
-          continueBtn.classList.remove('active');
+ // Initialize the quiz
+        function init() {
+            // Event listeners
+            startBtn.addEventListener('click', startQuiz);
+            restartBtn.addEventListener('click', restartQuiz);
+            topicSelectEl.addEventListener('change', handleTopicChange);
+            
+            // Disable blurred options
+            const blurredOptions = document.querySelectorAll('.blurred-option');
+            blurredOptions.forEach(option => {
+                option.disabled = true;
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    upgradeMessageEl.textContent = 'Upgrade to Pro to unlock';
+                    upgradeMessageEl.style.display = 'block';
+                    topicSelectEl.value = '';
+                });
+            });
+            
+            // Add event listeners for share functionality
+            if (telegramShareBtn && revealScoreBtn) {
+                telegramShareBtn.addEventListener('click', handleShare);
+                revealScoreBtn.addEventListener('click', revealFullScore);
+            }
+            
+            // Add popup event listeners
+            document.querySelector('.close-button').addEventListener('click', closePopup);
+            
+            // Show pop-up every 55 seconds
+            setInterval(showPopup, 55000);
         }
-      });
 
-      /* Handle Continue click */
-      continueBtn.addEventListener('click', function () {
-        /* Guard: must be checked (extra safety) */
-        if (!checkbox.checked) {
-          validationMsg.classList.add('visible');
-          checkbox.focus();
-          return;
+        // Handle topic change
+        function handleTopicChange() {
+            const selectedTopic = topicSelectEl.value;
+            const selectedOption = topicSelectEl.options[topicSelectEl.selectedIndex];
+            
+            // Reset upgrade message
+            upgradeMessageEl.style.display = 'none';
+            
+            // Check if selected option is blurred
+            if (selectedOption && selectedOption.classList.contains('blurred-option')) {
+                upgradeMessageEl.textContent = 'Upgrade to Pro to unlock';
+                upgradeMessageEl.style.display = 'block';
+                topicSelectEl.value = ''; // Reset selection
+            }
         }
 
-        /* Optional: warn if name is empty */
-        const name = nameInput.value.trim();
-        if (name === '') {
-          const proceed = confirm('You have not entered your full name.\nDo you still wish to proceed without signing your name?');
-          if (!proceed) {
-            nameInput.focus();
-            return;
-          }
+        // Start the quiz
+        function startQuiz() {
+            const selectedTopic = topicSelectEl.value;
+            
+            if (!selectedTopic) {
+                alert('Please select a topic first!');
+                return;
+            }
+            
+            // Load questions for selected topic
+            questions = getRandomQuestions(selectedTopic, 10);
+            
+            if (questions.length === 0) {
+                alert('No questions available for this topic!');
+                return;
+            }
+            
+            // Hide topic selection and show quiz
+            topicSelectionEl.style.display = 'none';
+            quizContainerEl.style.display = 'block';
+            
+            // Reset quiz state
+            currentQuestionIndex = 0;
+            score = 0;
+            answeredQuestions = 0;
+            totalTimeUsed = 0;
+            startTime = new Date();
+            
+            // Load first question
+            loadQuestion();
         }
 
-        /* Record timestamp of acceptance */
-        const timestamp = new Date().toLocaleString('en-GB', { timeZone: 'Africa/Banjul' });
-        console.info('[GAMJOBS NDA] Accepted by:', name || 'Anonymous', 'at', timestamp);
-
-        /* UI feedback */
-        continueBtn.disabled = true;
-        continueBtn.textContent = '✓ Agreement Recorded';
-        continueBtn.style.background = 'linear-gradient(135deg, #0F6E56, #085041)';
-        continueBtn.classList.remove('active');
-        successBanner.classList.add('visible');
-
-        /* Scroll to success message */
-        successBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-        /* Simulate redirect after 2.5s */
-        setTimeout(function () {
-          /* Replace with your actual platform URL when ready */
-          alert('Redirecting to GAMJOBS.io platform...\n(Replace this with your actual redirect URL)');
-          /* window.location.href = 'https://gamjobs.io/dashboard'; */
-        }, 2500);
-      });
-
-      /* Show validation msg if button somehow clicked while disabled via keyboard */
-      continueBtn.addEventListener('keydown', function (e) {
-        if ((e.key === 'Enter' || e.key === ' ') && this.disabled) {
-          validationMsg.classList.add('visible');
+        // Get random questions from the bank
+        function getRandomQuestions(topic, count) {
+            if (!questionsBank[topic] || questionsBank[topic].length === 0) {
+                return [];
+            }
+            
+            const topicQuestions = [...questionsBank[topic]];
+            const selectedQuestions = [];
+            
+            // Ensure we don't try to get more questions than are available
+            count = Math.min(count, topicQuestions.length);
+            
+            for (let i = 0; i < count; i++) {
+                const randomIndex = Math.floor(Math.random() * topicQuestions.length);
+                selectedQuestions.push(topicQuestions.splice(randomIndex, 1)[0]);
+            }
+            
+            return selectedQuestions;
         }
-      });
-    })();
-  </script>
+
+        // Load a question
+        function loadQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                endQuiz();
+                return;
+            }
+            
+            const question = questions[currentQuestionIndex];
+            
+            // Update question counter
+            questionCounterEl.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            
+            // Load question text
+            questionEl.textContent = question.question;
+            
+            // Clear options and feedback
+            optionsEl.innerHTML = '';
+            feedbackEl.innerHTML = '';
+            feedbackEl.className = 'feedback';
+            
+            // Add options
+            question.options.forEach((option, index) => {
+                const li = document.createElement('li');
+                li.textContent = option;
+                li.className = 'option';
+                li.setAttribute('data-index', index);
+                li.addEventListener('click', () => selectAnswer(index));
+                optionsEl.appendChild(li);
+            });
+            
+            // Reset and start timer
+            timeLeft = 60;
+            timerProgressEl.style.width = '100%';
+            clearInterval(timer);
+            startTimer();
+        }
+
+        // Start the timer
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                
+                // Update timer bar
+                const percentage = (timeLeft / 60) * 100;
+                timerProgressEl.style.width = `${percentage}%`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    handleTimeUp();
+                }
+            }, 1000);
+        }
+
+        // Handle time up
+        function handleTimeUp() {
+            // Mark question as timed out
+            feedbackEl.textContent = "Time's up! Moving to next question...";
+            feedbackEl.className = 'feedback incorrect-feedback';
+            
+            // Disable all options
+            const options = document.querySelectorAll('.option');
+            const question = questions[currentQuestionIndex];
+            const correctIndex = question.correctAnswer ?? question.answer;
+            
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+                
+                // Highlight correct answer
+                if (parseInt(option.getAttribute('data-index')) === correctIndex) {
+                    option.classList.add('correct');
+                }
+            });
+            
+            // Record time used
+            totalTimeUsed += 60;
+            answeredQuestions++;
+            
+            // Store answer with correct answer for timed out questions
+            userAnswers.push({
+                question: question.question,
+                userAnswer: "Time's up",
+                correctAnswer: question.options[correctIndex],
+                isCorrect: false
+            });
+            
+            // Move to next question after 2 seconds
+            setTimeout(nextQuestion, 2000);
+        }
+
+        function selectAnswer(index) {
+            clearInterval(timer);
+            
+            const correctIndex = questions[currentQuestionIndex].correctAnswer ?? questions[currentQuestionIndex].answer;
+            const isCorrect = index === correctIndex;
+            
+            // Record time used
+            const timeUsed = 60 - timeLeft;
+            totalTimeUsed += timeUsed;
+            answeredQuestions++;
+            
+            // Store answer with correct answer
+            const question = questions[currentQuestionIndex];
+            userAnswers.push({
+                question: question.question,
+                userAnswer: question.options[index],
+                correctAnswer: question.options[correctIndex],
+                isCorrect: isCorrect
+            });
+            
+            // Update score if correct
+            if (isCorrect) {
+                score++;
+            }
+            
+            // Disable options without highlighting
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+            });
+            
+            // Move to next question after 1 second
+            setTimeout(nextQuestion, 1000);
+        }
+
+        // Move to next question
+        function nextQuestion() {
+            currentQuestionIndex++;
+            loadQuestion();
+        }
+
+        // End the quiz
+        function endQuiz() {
+            endTime = new Date();
+            const totalTime = (endTime - startTime) / 1000; // in seconds
+            
+            // Hide quiz container and show results
+            quizContainerEl.style.display = 'none';
+            resultsEl.style.display = 'block';
+            
+            // Store actual score and show masked version
+            quizScore = score;
+            scoreEl.textContent = '**';
+            
+            // Reset share functionality
+            shareCount = 0;
+            shareProgressBar.style.width = '0%';
+            shareCountText.textContent = 'Shares: 0/5';
+            revealScoreBtn.disabled = true;
+            telegramShareBtn.disabled = false;
+            answersSummary.style.display = 'none';
+            restartBtn.style.display = 'none';
+            
+            // Update time stats
+            const avgTimePerQuestion = answeredQuestions > 0 ? (totalTimeUsed / answeredQuestions).toFixed(1) : 0;
+            timeStatsEl.textContent = `Total time: ${totalTime.toFixed(1)} seconds
+                                      Average time per question: ${avgTimePerQuestion} seconds`;
+        }
+
+        // Restart the quiz
+        function restartQuiz() {
+            // Hide results and show topic selection
+            resultsEl.style.display = 'none';
+            topicSelectionEl.style.display = 'block';
+            
+            // Reset topic selection
+            topicSelectEl.value = '';
+            upgradeMessageEl.style.display = 'none';
+        }
+
+        // Function to handle share action
+        function handleShare() {
+            // Increment share count
+            shareCount++;
+
+            // Update progress bar and text
+            const progressPercentage = (shareCount / 5) * 100;
+            shareProgressBar.style.width = `${progressPercentage}%`;
+            shareCountText.textContent = `Shares: ${shareCount}/5`;
+
+            // Open Telegram share link
+            const telegramShareMessage = encodeURIComponent(
+                "➗✨ 99% of people can't get a perfect score on this Math quiz! " +
+                "Think you're in the top 1%? Test your knowledge now and challenge a friend to beat you! 🚀🔥\n\n" +
+                "CLICK THE LINK FOR THE QUIZ 👇 [https://yourquizlink.com]"
+            );
+            window.open(`https://t.me/share/url?url=${telegramShareMessage}`, '_blank');
+
+            // Enable reveal score button if shares reach 5
+            if (shareCount >= 5) {
+                revealScoreBtn.disabled = false;
+                telegramShareBtn.disabled = true;
+            }
+        }
+
+        // Function to reveal full score
+        function revealFullScore() {
+            scoreEl.textContent = `${quizScore}/${questions.length}`;
+            
+            // Show answers summary
+            const correctList = document.getElementById('correct-list');
+            const wrongList = document.getElementById('wrong-list');
+            const correctCount = document.getElementById('correct-count');
+            const wrongCount = document.getElementById('wrong-count');
+            
+            // Clear previous lists
+            correctList.innerHTML = '';
+            wrongList.innerHTML = '';
+            
+            // Count correct and wrong answers
+            let correctCountNum = 0;
+            let wrongCountNum = 0;
+            
+            // Populate lists
+            userAnswers.forEach(answer => {
+                const li = document.createElement('li');
+                if (answer.isCorrect) {
+                    li.textContent = `Q: ${answer.question} | Your Answer: ${answer.userAnswer}`;
+                    correctList.appendChild(li);
+                    correctCountNum++;
+                } else {
+                    li.textContent = `Q: ${answer.question} | Your Answer: ${answer.userAnswer} | Correct Answer: ${answer.correctAnswer}`;
+                    wrongList.appendChild(li);
+                    wrongCountNum++;
+                }
+            });
+            
+            // Update counts
+            correctCount.textContent = correctCountNum;
+            wrongCount.textContent = wrongCountNum;
+            
+            // Show summary and restart button
+            answersSummary.style.display = 'block';
+            restartBtn.style.display = 'inline-block';
+            
+            alert(`Congratulations! Your full score is ${quizScore}/${questions.length}. Great job completing the mathematics quiz!`);
+            revealScoreBtn.disabled = true;
+        }
+
+        // Add popup functionality
+        function showPopup() {
+            let popup = document.getElementById("popupAd");
+            let countdown = document.getElementById("countdown");
+            let timeLeft = 35;
+            popup.style.display = "flex";
+            
+            let timer = setInterval(() => {
+                timeLeft--;
+                countdown.innerText = `Closing in ${timeLeft}s`;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    popup.style.display = "none";
+                }
+            }, 1000);
+        }
+
+        function closePopup(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            document.getElementById("popupAd").style.display = "none";
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
 </body>
 </html>
